@@ -1,0 +1,44 @@
+services:
+  payment-db:
+    image: mysql:8.0
+    environment:
+      MYSQL_DATABASE: paymentdb
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_ROOT_HOST: '%'
+    ports:
+      - "33306:3306"
+    volumes:
+      - payment-db-data:/var/lib/mysql
+    networks:
+      - payment-network
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
+      interval: 10s
+      retries: 5
+      start_period: 20s
+
+  payment-api:
+    build: .
+    ports:
+      - "8083:8083"
+    depends_on:
+      payment-db:
+        condition: service_healthy
+    environment:
+      PAYMENT_DB_URL: jdbc:mysql://payment-db:3306/paymentdb
+      KAFKA_BOOTSTRAP_SERVERS: kafka:29092
+    networks:
+      - payment-network
+      - order-api_kafka-network  # 추가된 부분: order-network와 연결
+
+networks:
+  payment-network:
+    driver: bridge
+  order-api_kafka-network:
+    external: true
+volumes:
+  payment-db-data:
+
+
+
+
