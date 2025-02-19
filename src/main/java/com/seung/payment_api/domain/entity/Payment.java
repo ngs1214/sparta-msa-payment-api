@@ -2,10 +2,7 @@ package com.seung.payment_api.domain.entity;
 
 import com.seung.payment_api.domain.enums.Status;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicInsert;
@@ -20,9 +17,10 @@ import java.time.LocalDateTime;
 @DynamicInsert
 @DynamicUpdate
 @NoArgsConstructor
-@Table(name = "products")
+@Table(name = "payments")
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Payment {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
@@ -33,6 +31,7 @@ public class Payment {
     @Column(name = "amount", nullable = false)
     BigDecimal amount;
 
+    @Setter
     @Column(name = "status", length = 50)
     @Enumerated(EnumType.STRING)
     Status status;

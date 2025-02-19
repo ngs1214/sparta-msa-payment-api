@@ -1,4 +1,4 @@
-CREATE TABLE payment (
+CREATE TABLE payments (
                           id BIGINT AUTO_INCREMENT PRIMARY KEY,
                           order_id BIGINT NOT NULL,
                           amount DOUBLE NOT NULL,
