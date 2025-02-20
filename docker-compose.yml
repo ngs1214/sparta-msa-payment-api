@@ -26,15 +26,16 @@ services:
         condition: service_healthy
     environment:
       PAYMENT_DB_URL: jdbc:mysql://payment-db:3306/paymentdb
-      KAFKA_BOOTSTRAP_SERVERS: kafka:29092
+      KAFKA_BOOTSTRAP_SERVERS: msa-kafka:19092
     networks:
       - payment-network
-      - order-api_kafka-network  # 추가된 부분: order-network와 연결
+      - kafka-network  # 추가된 부분: order-network와 연결
 
 networks:
   payment-network:
     driver: bridge
-  order-api_kafka-network:
+  kafka-network:
+    name: kafka-network
     external: true
 volumes:
   payment-db-data:
