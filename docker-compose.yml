@@ -30,12 +30,16 @@ services:
     networks:
       - payment-network
       - kafka-network  # 추가된 부분: order-network와 연결
+      - prometheus-network
 
 networks:
   payment-network:
     driver: bridge
   kafka-network:
     name: kafka-network
+    external: true
+  prometheus-network:
+    name: prometheus-network
     external: true
 volumes:
   payment-db-data:
